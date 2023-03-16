@@ -1,0 +1,102 @@
+import numpy as np  
+import pandas as pd
+url = "default of credit card clients.xls"
+
+
+# Read dataset to pandas dataframe
+dataset = pd.read_excel("default of credit card clients.xls", header=1)  #GO TO PARTICULAR DAtaset and fetch csv file from web
+print(dataset)
+X = dataset.iloc[:, :-1].values  
+y = dataset.iloc[:, 4].values
+
+
+from sklearn.model_selection import train_test_split  
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.20)
+from sklearn.preprocessing import StandardScaler  
+scaler = StandardScaler()  
+scaler.fit(X_train)
+X_train = scaler.transform(X_train)  
+X_test = scaler.transform(X_test)
+
+
+import sklearn
+from sklearn.neighbors import KNeighborsClassifier  
+classifier = KNeighborsClassifier(n_neighbors=1)  
+classifier.fit(X_train, y_train)
+y_pred = classifier.predict(X_test)
+print(y_pred)
+from sklearn.metrics import classification_report, confusion_matrix 
+print(confusion_matrix(y_test, y_pred))  
+print(classification_report(y_test, y_pred)) 
+
+
+data =  dataset.drop(['default payment next month','ID'], axis = 1)
+target = dataset['default payment next month']
+correlation = dataset.corr('spearman')
+correlation
+
+
+abs(correlation['default payment next month']).sort_values()
+
+
+import matplotlib.pyplot as plt
+from matplotlib.colors import ListedColormap
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.neighbors import KNeighborsClassifier
+knn = KNeighborsClassifier(n_neighbors=5)
+from sklearn import neighbors, datasets
+from sklearn import metrics
+scalar = MinMaxScaler()
+data=dataset.drop(['default payment next month','ID'], axis = 1)
+target=dataset['default payment next month']
+
+
+plt.plot(X_train, y_train, 'r.', X_test, y_pred,'b.',)
+
+
+x = np.array(data[['PAY_2']])
+y = np.array(target)
+x = scalar.fit_transform(x)
+xtrain, xtest, ytrain, ytest = train_test_split(x,y,test_size=0.3)
+knn.fit(xtrain,ytrain)
+ypred = knn.predict(xtest)
+print(metrics.accuracy_score(ypred,ytest))
+
+
+plt.plot( xtrain,ytrain,'r.',xtest,ypred,'b.',)
+
+
+x = np.array(data[['PAY_3']])
+y = np.array(target)
+x = scalar.fit_transform(x)
+xtrain, xtest, ytrain, ytest = train_test_split(x,y,test_size=0.3)
+knn.fit(xtrain,ytrain)
+ypred = knn.predict(xtest)
+print(metrics.accuracy_score(ypred,ytest))
+
+
+plt.plot( xtrain,ytrain,'r.',xtest,ypred,'b.',)
+
+
+x = np.array(data[['PAY_4']])
+y = np.array(target)
+x = scalar.fit_transform(x)
+xtrain, xtest, ytrain, ytest = train_test_split(x,y,test_size=0.3)
+knn.fit(xtrain,ytrain)
+ypred = knn.predict(xtest)
+print(metrics.accuracy_score(ypred,ytest))
+
+
+plt.plot( xtrain,ytrain,'r.',xtest,ypred,'b.',)
+
+
+x = np.array(data[['PAY_0','PAY_2','PAY_3','PAY_4']])
+y = np.array(target)
+x = scalar.fit_transform(x)
+xtrain, xtest, ytrain, ytest = train_test_split(x,y,test_size=0.3)
+knn.fit(xtrain,ytrain)
+ypred = knn.predict(xtest)
+print(metrics.accuracy_score(ypred,ytest))
+
+
+plt.plot( xtrain,ytrain,'r.',xtest,ypred,'b.',)
